@@ -1,0 +1,17 @@
+[Unit]
+Description=HA fileapp - prosty serwis upload/download
+After=network.target
+# Pacemaker uruchamia tylko tam gdzie /data jest zamontowane,
+# więc unit nie próbuje wystartować bez warunku.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/fileapp/fileapp.py
+Restart=on-failure
+RestartSec=2
+
+# Adres VIP zostanie podpięty na tym samym hoście przez Pacemakera,
+# aplikacja słucha na 0.0.0.0 więc obsłuży i VIP, i adres węzła.
+
+[Install]
+WantedBy=multi-user.target
